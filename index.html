@@ -11,555 +11,251 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #f4f7fb;
-      --bg2: #e8eef6;
-      --ink: #1a2133;
-      --ink2: #3a4560;
-      --ink3: #6a7590;
-      --accent: #2563b0;
-      --accent2: #3b82e0;
-      --hero-bg: #edf2fb;
+      --bg:          #f4f7fb;
+      --bg2:         #e8eef6;
+      --ink:         #1a2133;
+      --ink2:        #3a4560;
+      --ink3:        #6a7590;
+      --accent:      #2563b0;
+      --hero-bg:     #edf2fb;
       --hero-border: #c8d8f0;
-      --border: rgba(37,99,176,0.13);
-      --card: #fff;
-      --mono: 'DM Mono', monospace;
+      --border:      rgba(37,99,176,0.13);
+      --card:        #fff;
+      --best-bg:     #bfdbfe;
+      --second-bg:   #dbeafe;
+      --ours-bg:     #f0fdf4;
+      --ours-border: #86efac;
+      --mono:  'DM Mono', monospace;
       --serif: 'DM Serif Display', Georgia, serif;
-      --sans: 'DM Sans', sans-serif;
-      --max: 860px;
+      --sans:  'DM Sans', sans-serif;
+      --max:   960px;
     }
 
     html { scroll-behavior: smooth; }
-
     body {
       font-family: var(--sans);
-      background: var(--bg);
-      color: var(--ink);
-      line-height: 1.7;
-      font-size: 16px;
-      overflow-x: hidden;
+      background: var(--bg); color: var(--ink);
+      line-height: 1.7; font-size: 16px; overflow-x: hidden;
     }
 
-    /* ── HERO ─────────────────────────────────────────────────── */
-    .hero {
-      background: var(--hero-bg);
-      border-bottom: 1px solid var(--hero-border);
-      color: var(--ink);
-      padding: 80px 24px 64px;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: repeating-linear-gradient(
-        90deg,
-        transparent,
-        transparent 59px,
-        rgba(37,99,176,0.04) 60px
-      );
-      pointer-events: none;
-    }
-
-    .hero-badge {
-      display: inline-block;
-      font-family: var(--mono);
-      font-size: 11px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--accent);
-      border: 1px solid var(--accent);
-      padding: 4px 12px;
-      border-radius: 2px;
-      margin-bottom: 28px;
-      animation: fadeUp 0.6s ease both;
-    }
-
-    .hero h1 {
-      font-family: var(--serif);
-      font-size: clamp(2rem, 5vw, 3.2rem);
-      line-height: 1.2;
-      max-width: 700px;
-      margin: 0 auto 12px;
-      animation: fadeUp 0.6s 0.1s ease both;
-    }
-
-    .hero h1 em {
-      font-style: italic;
-      color: var(--accent);
-    }
-
-    .venue {
-      font-family: var(--mono);
-      font-size: 12px;
-      letter-spacing: 0.08em;
-      color: var(--ink3);
-      margin-bottom: 32px;
-      animation: fadeUp 0.6s 0.2s ease both;
-    }
-
-    .authors {
-      font-size: 15px;
-      color: var(--ink2);
-      max-width: 680px;
-      margin: 0 auto 8px;
-      animation: fadeUp 0.6s 0.25s ease both;
-    }
-
-    .authors a { color: var(--accent); text-decoration: none; }
-    .authors a:hover { text-decoration: underline; }
-
-    .affiliations {
-      font-size: 13px;
-      color: var(--ink3);
-      max-width: 680px;
-      margin: 0 auto 40px;
-      animation: fadeUp 0.6s 0.3s ease both;
-    }
-
-    .btn-row {
-      display: flex;
-      gap: 12px;
-      justify-content: center;
-      flex-wrap: wrap;
-      animation: fadeUp 0.6s 0.35s ease both;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      font-family: var(--mono);
-      font-size: 12px;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      text-decoration: none;
-      padding: 10px 20px;
-      border-radius: 2px;
-      transition: all 0.2s;
-      border: 1px solid transparent;
-    }
-
-    .btn-primary {
-      background: var(--accent);
-      color: #fff;
-    }
-    .btn-primary:hover { background: #1a4d8f; }
-
-    .btn-outline {
-      border-color: rgba(37,99,176,0.35);
-      color: var(--ink2);
-      background: rgba(255,255,255,0.6);
-    }
-    .btn-outline:hover {
-      border-color: var(--accent);
-      background: rgba(37,99,176,0.06);
-      color: var(--accent);
-    }
-
-    .btn svg { width: 14px; height: 14px; flex-shrink: 0; }
-
-    /* ── TEASER ────────────────────────────────────────────────── */
-    .teaser {
-      background: var(--bg2);
-      padding: 56px 24px;
-      text-align: center;
-      border-bottom: 1px solid var(--hero-border);
-    }
-
-    .teaser-img {
-      max-width: var(--max);
-      width: 100%;
-      border-radius: 4px;
-      box-shadow: 0 8px 40px rgba(0,0,0,0.12);
-      display: block;
-      margin: 0 auto;
-    }
-
-    .teaser-caption {
-      margin-top: 20px;
-      font-size: 13.5px;
-      color: var(--ink3);
-      max-width: 680px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    /* ── LAYOUT ────────────────────────────────────────────────── */
-    .page { max-width: var(--max); margin: 0 auto; padding: 0 24px; }
-
-    section { padding: 72px 0; border-bottom: 1px solid var(--border); }
-    section:last-of-type { border-bottom: none; }
-
-    .section-label {
-      font-family: var(--mono);
-      font-size: 11px;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 16px;
-    }
-
-    h2 {
-      font-family: var(--serif);
-      font-size: clamp(1.6rem, 3vw, 2.2rem);
-      font-weight: 400;
-      line-height: 1.25;
-      margin-bottom: 24px;
-      color: var(--ink);
-    }
-
-    p { color: var(--ink2); margin-bottom: 16px; }
-    p:last-child { margin-bottom: 0; }
-
-    /* ── TL;DR STRIP ───────────────────────────────────────────── */
-    .tldr {
-      background: var(--accent);
-      color: #fff;
-      padding: 36px 24px;
-      text-align: center;
-    }
-
-    .tldr-inner {
-      max-width: var(--max);
-      margin: 0 auto;
-      display: flex;
-      align-items: baseline;
-      gap: 16px;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-
-    .tldr-label {
-      font-family: var(--mono);
-      font-size: 11px;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.7);
-      white-space: nowrap;
-    }
-
-    .tldr-text {
-      font-size: 16px;
-      color: rgba(255,255,255,0.92);
-      max-width: 680px;
-      text-align: left;
-      margin: 0;
-    }
-
-    /* ── CONTRIBUTIONS ─────────────────────────────────────────── */
-    .contrib-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 20px;
-      margin-top: 8px;
-    }
-
-    .contrib-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      padding: 28px 24px;
-      position: relative;
-      transition: box-shadow 0.2s;
-    }
-
-    .contrib-card:hover { box-shadow: 0 4px 24px rgba(0,0,0,0.08); }
-
-    .contrib-num {
-      font-family: var(--mono);
-      font-size: 11px;
-      letter-spacing: 0.1em;
-      color: var(--accent);
-      margin-bottom: 12px;
-    }
-
-    .contrib-card h3 {
-      font-family: var(--serif);
-      font-size: 1.1rem;
-      font-weight: 400;
-      margin-bottom: 10px;
-      color: var(--ink);
-    }
-
-    .contrib-card p { font-size: 14px; margin: 0; }
-
-    /* ── METHOD FIGURE ─────────────────────────────────────────── */
-    .fig-wrap {
-      margin: 32px 0;
-      text-align: center;
-    }
-
-    .fig-wrap img {
-      max-width: 100%;
-      border-radius: 4px;
-      border: 1px solid var(--border);
-      display: block;
-      margin: 0 auto;
-      background: var(--bg2);
-      min-height: 200px;
-    }
-
-    .fig-caption {
-      margin-top: 14px;
-      font-size: 13.5px;
-      color: var(--ink3);
-      font-style: italic;
-    }
-
-    /* ── ARCHITECTURE DIAGRAM ──────────────────────────────────── */
-    .arch-diagram {
-      margin: 32px 0;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      padding: 40px 32px;
-      overflow-x: auto;
-    }
-
-    .arch-svg { width: 100%; max-width: 780px; display: block; margin: 0 auto; }
-
-    /* ── RESULTS TABLE ─────────────────────────────────────────── */
-    .table-wrap { overflow-x: auto; margin: 24px 0; }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 13.5px;
-    }
-
-    thead tr {
-      background: var(--accent);
-      color: #fff;
-    }
-
-    thead th {
-      padding: 10px 14px;
-      text-align: center;
-      font-family: var(--mono);
-      font-size: 11px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      font-weight: 500;
-    }
-
-    thead th:first-child { text-align: left; }
-
-    tbody tr { border-bottom: 1px solid var(--border); }
-    tbody tr:hover { background: var(--bg2); }
-    tbody tr.ours { background: rgba(200, 75, 47, 0.06); }
-    tbody tr.ours td { font-weight: 500; }
-
-    td { padding: 9px 14px; text-align: center; color: var(--ink2); }
-    td:first-child { text-align: left; color: var(--ink); }
-
-    .best { color: var(--accent); font-weight: 600; }
-    .ours-tag {
-      display: inline-block;
-      font-family: var(--mono);
-      font-size: 9px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--accent);
-      border: 1px solid var(--accent);
-      padding: 1px 5px;
-      border-radius: 2px;
-      margin-left: 6px;
-      vertical-align: middle;
-    }
-
-    /* ── DATASETS ──────────────────────────────────────────────── */
-    .dataset-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 12px;
-      margin-top: 16px;
-    }
-
-    .dataset-card {
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      padding: 18px;
-      background: var(--card);
-      text-align: center;
-    }
-
-    .dataset-card .name {
-      font-family: var(--mono);
-      font-size: 13px;
-      color: var(--accent);
-      margin-bottom: 6px;
-      font-weight: 500;
-    }
-
-    .dataset-card .desc {
-      font-size: 12px;
-      color: var(--ink3);
-      margin: 0;
-    }
-
-    /* ── BIBTEX ────────────────────────────────────────────────── */
-    .bibtex-block {
-      position: relative;
-      background: #1a2a4a;
-      border-radius: 4px;
-      padding: 28px 32px;
-      margin-top: 20px;
-      overflow: hidden;
-    }
-
-    .bibtex-block pre {
-      font-family: var(--mono);
-      font-size: 13px;
-      color: rgba(220,232,255,0.85);
-      line-height: 1.8;
-      overflow-x: auto;
-      white-space: pre;
-    }
-
-    .copy-btn {
-      position: absolute;
-      top: 16px;
-      right: 16px;
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.2);
-      color: rgba(220,232,255,0.7);
-      font-family: var(--mono);
-      font-size: 11px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      padding: 6px 12px;
-      border-radius: 2px;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .copy-btn:hover { background: rgba(255,255,255,0.15); color: #fff; }
-    .copy-btn.copied { color: #7dd3fc; border-color: #7dd3fc; }
-
-    /* ── FOOTER ────────────────────────────────────────────────── */
-    footer {
-      background: var(--bg2);
-      border-top: 1px solid var(--hero-border);
-      padding: 36px 24px;
-      text-align: center;
-      font-size: 13px;
-      color: var(--ink3);
-    }
-
-    footer a { color: var(--ink2); }
-    footer a:hover { color: var(--accent); }
-
-    /* ── ANIMATIONS ────────────────────────────────────────────── */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(18px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    .reveal {
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-    }
-
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* ── NAV ───────────────────────────────────────────────────── */
+    /* NAV */
     nav {
-      position: sticky;
-      top: 0;
-      z-index: 100;
+      position: sticky; top: 0; z-index: 100;
       background: rgba(244,247,251,0.95);
       backdrop-filter: blur(8px);
       border-bottom: 1px solid var(--hero-border);
       padding: 0 24px;
     }
-
     .nav-inner {
-      max-width: var(--max);
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      height: 48px;
-      gap: 4px;
-      overflow-x: auto;
+      max-width: var(--max); margin: 0 auto;
+      display: flex; align-items: center; height: 48px; gap: 4px; overflow-x: auto;
     }
-
     nav a {
-      font-family: var(--mono);
-      font-size: 11px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      text-decoration: none;
-      color: var(--ink3);
-      padding: 6px 12px;
-      border-radius: 2px;
-      white-space: nowrap;
-      transition: all 0.15s;
+      font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em;
+      text-transform: uppercase; text-decoration: none; color: var(--ink3);
+      padding: 6px 12px; border-radius: 2px; white-space: nowrap; transition: all 0.15s;
     }
-
     nav a:hover { color: var(--accent); background: var(--bg2); }
 
-    /* pipeline steps */
-    .pipeline {
-      display: flex;
-      align-items: stretch;
-      gap: 0;
-      margin: 32px 0;
-      overflow-x: auto;
+    /* HERO */
+    .hero {
+      background: var(--hero-bg);
+      border-bottom: 1px solid var(--hero-border);
+      padding: 80px 24px 64px; text-align: center;
+      position: relative; overflow: hidden;
     }
+    .hero::before {
+      content: ''; position: absolute; inset: 0;
+      background: repeating-linear-gradient(90deg,transparent,transparent 59px,rgba(37,99,176,0.04) 60px);
+      pointer-events: none;
+    }
+    .hero h1 {
+      font-family: var(--serif); font-size: clamp(2rem,5vw,3.2rem);
+      line-height: 1.2; max-width: 760px; margin: 0 auto 16px;
+      animation: fadeUp 0.6s ease both;
+    }
+    .hero h1 em { font-style: italic; color: var(--accent); }
+    .venue {
+      font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em;
+      color: var(--ink3); margin-bottom: 28px;
+      animation: fadeUp 0.6s 0.1s ease both;
+    }
+    .authors {
+      font-size: 15px; color: var(--ink2);
+      max-width: 720px; margin: 0 auto 8px;
+      animation: fadeUp 0.6s 0.15s ease both;
+    }
+    .authors a { color: var(--accent); text-decoration: none; }
+    .authors a:hover { text-decoration: underline; }
+    .affiliations {
+      font-size: 13px; color: var(--ink3);
+      max-width: 720px; margin: 0 auto 36px;
+      animation: fadeUp 0.6s 0.2s ease both;
+    }
+    .btn-row {
+      display: flex; gap: 12px; justify-content: center;
+      flex-wrap: wrap; animation: fadeUp 0.6s 0.25s ease both;
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: 7px;
+      font-family: var(--mono); font-size: 12px; letter-spacing: 0.06em;
+      text-transform: uppercase; text-decoration: none;
+      padding: 10px 20px; border-radius: 2px; transition: all 0.2s; border: 1px solid transparent;
+    }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: #1a4d8f; }
+    .btn-outline { border-color: rgba(37,99,176,0.35); color: var(--ink2); background: rgba(255,255,255,0.7); }
+    .btn-outline:hover { border-color: var(--accent); background: rgba(37,99,176,0.06); color: var(--accent); }
+    .btn svg { width: 14px; height: 14px; flex-shrink: 0; }
 
+    /* TL;DR */
+    .tldr { background: var(--accent); color: #fff; padding: 32px 24px; text-align: center; }
+    .tldr-inner {
+      max-width: var(--max); margin: 0 auto;
+      display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap; justify-content: center;
+    }
+    .tldr-label {
+      font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em;
+      text-transform: uppercase; color: rgba(255,255,255,0.65); white-space: nowrap;
+    }
+    .tldr-text { font-size: 15.5px; color: rgba(255,255,255,0.92); max-width: 700px; text-align: left; margin: 0; }
+
+    /* TEASER */
+    .teaser {
+      background: var(--bg2); padding: 56px 24px;
+      text-align: center; border-bottom: 1px solid var(--hero-border);
+    }
+    .teaser-inner { max-width: var(--max); margin: 0 auto; }
+    .teaser img {
+      max-width: 100%; border-radius: 4px;
+      box-shadow: 0 6px 32px rgba(37,99,176,0.1); display: block; margin: 0 auto;
+    }
+    .fig-placeholder {
+      width: 100%; border-radius: 4px; border: 1px dashed var(--hero-border);
+      background: var(--card); display: flex; align-items: center; justify-content: center;
+      min-height: 220px; flex-direction: column; gap: 8px;
+    }
+    .fig-placeholder .ph-title { font-family: var(--mono); font-size: 13px; color: var(--accent); }
+    .fig-placeholder .ph-hint { font-size: 12px; color: var(--ink3); }
+    .fig-caption { margin-top: 16px; font-size: 13.5px; color: var(--ink3); max-width: 720px; margin-left: auto; margin-right: auto; }
+
+    /* LAYOUT */
+    .page { max-width: var(--max); margin: 0 auto; padding: 0 24px; }
+    section { padding: 68px 0; border-bottom: 1px solid var(--border); }
+    section:last-of-type { border-bottom: none; }
+    .section-label {
+      font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--accent); margin-bottom: 14px;
+    }
+    h2 {
+      font-family: var(--serif); font-size: clamp(1.6rem,3vw,2.2rem);
+      font-weight: 400; line-height: 1.25; margin-bottom: 22px; color: var(--ink);
+    }
+    h3 { font-family: var(--serif); font-size: 1.2rem; font-weight: 400; margin: 28px 0 12px; color: var(--ink); }
+    p { color: var(--ink2); margin-bottom: 16px; }
+    p:last-child { margin-bottom: 0; }
+
+    /* CONTRIBUTIONS */
+    .contrib-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+      gap: 18px; margin-top: 8px;
+    }
+    .contrib-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 4px; padding: 24px 20px; transition: box-shadow 0.2s;
+    }
+    .contrib-card:hover { box-shadow: 0 4px 20px rgba(37,99,176,0.1); }
+    .contrib-num { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 10px; }
+    .contrib-card h3 { font-family: var(--serif); font-size: 1.05rem; font-weight: 400; margin: 0 0 8px; color: var(--ink); }
+    .contrib-card p { font-size: 13.5px; margin: 0; }
+
+    /* PIPELINE */
+    .pipeline { display: flex; align-items: stretch; gap: 0; margin: 28px 0; overflow-x: auto; }
     .pipe-step {
-      flex: 1;
-      min-width: 130px;
-      background: var(--card);
-      border: 1px solid var(--border);
-      padding: 20px 16px;
-      text-align: center;
-      position: relative;
+      flex: 1; min-width: 115px; background: var(--card);
+      border: 1px solid var(--border); padding: 18px 12px; text-align: center;
     }
-
-    .pipe-step + .pipe-step {
-      border-left: none;
-    }
-
-    .pipe-step.highlight {
-      background: var(--accent);
-      color: #fff;
-      border-color: var(--accent);
-    }
-
+    .pipe-step + .pipe-step { border-left: none; }
+    .pipe-step.highlight { background: var(--accent); color: #fff; border-color: var(--accent); }
     .pipe-step.highlight p { color: rgba(255,255,255,0.75); }
-
-    .pipe-step h4 {
-      font-family: var(--mono);
-      font-size: 11px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      margin-bottom: 8px;
-    }
-
-    .pipe-step p { font-size: 12px; margin: 0; color: var(--ink3); }
-
-    .pipe-arrow {
-      display: flex;
-      align-items: center;
-      padding: 0 4px;
-      color: var(--accent);
-      font-size: 20px;
-      flex-shrink: 0;
-    }
-
+    .pipe-step h4 { font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 6px; }
+    .pipe-step p { font-size: 11.5px; margin: 0; color: var(--ink3); }
+    .pipe-arrow { display: flex; align-items: center; padding: 0 4px; color: var(--accent); font-size: 18px; flex-shrink: 0; }
     @media (max-width: 600px) {
       .pipeline { flex-direction: column; }
       .pipe-step + .pipe-step { border-left: 1px solid var(--border); border-top: none; }
       .pipe-arrow { transform: rotate(90deg); align-self: center; }
     }
+
+    /* FIGURE */
+    .fig-wrap { margin: 28px 0; text-align: center; }
+    .fig-wrap img { max-width: 100%; border-radius: 4px; border: 1px solid var(--border); display: block; margin: 0 auto; }
+    .fig-cap { margin-top: 12px; font-size: 13px; color: var(--ink3); font-style: italic; }
+
+    /* TABLE */
+    .table-legend { display: flex; flex-wrap: wrap; gap: 14px; margin: 14px 0 10px; font-size: 12px; color: var(--ink3); }
+    .leg-item { display: flex; align-items: center; gap: 6px; }
+    .leg-box { width: 14px; height: 14px; border-radius: 2px; flex-shrink: 0; }
+    .table-scroll { overflow-x: auto; margin: 4px 0 10px; border-radius: 4px; border: 1px solid var(--hero-border); }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; white-space: nowrap; }
+    thead tr { background: var(--accent); color: #fff; }
+    thead th {
+      padding: 11px 13px; text-align: center;
+      font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.07em;
+      text-transform: uppercase; font-weight: 500;
+    }
+    thead th:first-child, thead th:nth-child(2) { text-align: left; }
+    tbody tr { border-bottom: 1px solid var(--border); }
+    tbody tr:hover { background: #f0f5ff; }
+    td { padding: 8px 13px; text-align: center; color: var(--ink2); }
+    td:first-child { text-align: left; color: var(--ink); font-weight: 500; }
+    td:nth-child(2) { text-align: left; color: var(--ink3); }
+    td.dash { color: #b0bad0; }
+    td.best { background: var(--best-bg); color: #1e3a8a; font-weight: 700; }
+    td.second { background: var(--second-bg); color: #1e40af; font-weight: 600; }
+    tbody tr.ours td { background: var(--ours-bg); }
+    tbody tr.ours td:first-child { color: #166534; font-weight: 600; }
+    tbody tr.ours { border-bottom: 1px solid var(--ours-border); }
+    .ours-tag {
+      display: inline-block; font-family: var(--mono); font-size: 9px; letter-spacing: 0.07em;
+      text-transform: uppercase; color: #166534; border: 1px solid #86efac;
+      padding: 1px 5px; border-radius: 2px; margin-left: 5px; vertical-align: middle;
+    }
+    .table-footnote { font-size: 12px; color: var(--ink3); margin-top: 8px; font-style: italic; }
+
+    /* DATASETS */
+    .dataset-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(180px,1fr)); gap: 12px; margin-top: 16px; }
+    .dataset-card { border: 1px solid var(--border); border-radius: 4px; padding: 18px; background: var(--card); text-align: center; }
+    .dataset-card .name { font-family: var(--mono); font-size: 13px; color: var(--accent); margin-bottom: 6px; font-weight: 500; }
+    .dataset-card .desc { font-size: 12px; color: var(--ink3); margin: 0; }
+
+    /* BIBTEX */
+    .bibtex-block { position: relative; background: #1a2a4a; border-radius: 4px; padding: 28px 32px; margin-top: 20px; }
+    .bibtex-block pre { font-family: var(--mono); font-size: 13px; color: rgba(220,232,255,0.85); line-height: 1.8; overflow-x: auto; white-space: pre; }
+    .copy-btn {
+      position: absolute; top: 16px; right: 16px;
+      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2);
+      color: rgba(220,232,255,0.7); font-family: var(--mono); font-size: 11px;
+      letter-spacing: 0.08em; text-transform: uppercase; padding: 6px 12px;
+      border-radius: 2px; cursor: pointer; transition: all 0.2s;
+    }
+    .copy-btn:hover { background: rgba(255,255,255,0.15); color: #fff; }
+    .copy-btn.copied { color: #7dd3fc; border-color: #7dd3fc; }
+
+    /* FOOTER */
+    footer { background: var(--bg2); border-top: 1px solid var(--hero-border); padding: 36px 24px; text-align: center; font-size: 13px; color: var(--ink3); }
+    footer a { color: var(--ink2); }
+    footer a:hover { color: var(--accent); }
+
+    /* MULTI TABLE ROW */
+    .multi-table-row { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+    @media (max-width: 700px) { .multi-table-row { grid-template-columns: 1fr; } }
+    .sub-table-wrap { min-width: 0; }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+    .reveal { opacity:0; transform:translateY(18px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity:1; transform:translateY(0); }
   </style>
 </head>
 <body>
@@ -567,20 +263,17 @@
 <!-- NAV -->
 <nav>
   <div class="nav-inner">
-    <a href="#abstract">Abstract</a>
-    <a href="#method">Method</a>
     <a href="#contributions">Contributions</a>
+    <a href="#cd-comparison">CD Frameworks</a>
+    <a href="#method">Method</a>
     <a href="#results">Results</a>
-    <a href="#datasets">Datasets</a>
     <a href="#bibtex">BibTeX</a>
   </div>
 </nav>
 
 <!-- HERO -->
 <header class="hero">
-  <div class="hero-badge">arXiv · 2602.05882 · cs.CV · Feb 2026</div>
-  <h1>EoCD: <em>Encoder-only</em> Remote Sensing Change Detection</h1>
-  <div class="venue">Preprint · 2026</div>
+  <h1>EoCD: <em>Encoder-only</em> Remote Sensing<br>Change Detection</h1>
 
   <div class="authors">
     <a href="#">Mubashir Noman</a><sup>1</sup>,&nbsp;
@@ -591,7 +284,6 @@
     <a href="#">Fahad Shahbaz Khan</a><sup>1</sup>,&nbsp;
     <a href="#">Salman Khan</a><sup>1</sup>
   </div>
-
   <div class="affiliations">
     <sup>1</sup>MBZUAI, UAE &nbsp;·&nbsp;
     <sup>2</sup>IBM Research, UAE &nbsp;·&nbsp;
@@ -609,12 +301,14 @@
       PDF
     </a>
     <a href="#" class="btn btn-outline" target="_blank">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77A5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
       Code (coming soon)
     </a>
   </div>
 </header>
 
+<!-- TEASER (Contributions first, then figure) -->
+<div class="page">
 
   <!-- CONTRIBUTIONS -->
   <section id="contributions">
@@ -625,94 +319,202 @@
         <div class="contrib-card">
           <div class="contrib-num">01 —</div>
           <h3>Encoder-only CD Framework</h3>
-          <p>We propose EoCD, a simple and efficient change detection model based on early fusion that entirely eliminates the need for a sophisticated decoder.</p>
+          <p>EoCD is a simple and efficient change detection model based on early fusion that entirely eliminates the need for a sophisticated decoder.</p>
         </div>
         <div class="contrib-card">
           <div class="contrib-num">02 —</div>
           <h3>Parameter-free EMFF</h3>
-          <p>We introduce the Efficient Multiscale Feature Fusion module — containing no learnable parameters — that effectively aggregates multiscale encoder features for optimal CD performance.</p>
+          <p>The Efficient Multiscale Feature Fusion module contains no learnable parameters yet effectively aggregates multiscale encoder features for optimal CD performance.</p>
         </div>
         <div class="contrib-card">
           <div class="contrib-num">03 —</div>
           <h3>Encoder Dominance Insight</h3>
-          <p>We demonstrate that CD performance is predominantly dependent on the encoder network, making the decoder an additional and unnecessary component — a new direction for the RS community.</p>
+          <p>We demonstrate that CD performance is predominantly dependent on the encoder, making the decoder an additional and often unnecessary component — a new direction for the RS community.</p>
         </div>
         <div class="contrib-card">
           <div class="contrib-num">04 —</div>
           <h3>Broad Encoder Compatibility</h3>
-          <p>Extensive experiments with various encoder architectures (CNN, ViT, Swin) confirm that EoCD achieves the optimal balance between performance and prediction speed.</p>
+          <p>Experiments with CNN, ViT, and Swin-based encoders confirm EoCD achieves the optimal balance between performance and prediction speed across architectures.</p>
         </div>
       </div>
     </div>
   </section>
 
-    <!-- Comparison of various CD frameworks -->
-<section class="section">
-  <div class="columns is-centered has-text-centered">
-      <div class="column is-six-fifths">
-          <h2 class="title is-3"><img src="static/images/logo.png" alt="GeoVLM" width="60"
-                  style="vertical-align: bottom;"> Comparison of various CD frameworks</h2>
+  <!-- CD FRAMEWORKS COMPARISON -->
+  <section id="cd-comparison">
+    <div class="reveal">
+      <div class="section-label">CD Frameworks Comparison</div>
+      <h2>Comparison of Various CD Frameworks</h2>
+      <div class="fig-wrap">
+        <!-- Replace with: <img src="images/intro_figure.png" alt="CD framework comparison"> -->
+        <div class="fig-placeholder" style="min-height:260px;">
+          <span class="ph-title">intro_figure.png</span>
+          <span class="ph-hint">Replace with: &lt;img src="images/intro_figure.png" alt="CD framework comparison"&gt;</span>
+        </div>
+        <p class="fig-cap">
+          Comparison of various CD frameworks.
+          (a) In late fusion, I<sub>pre</sub> and I<sub>post</sub> are fed to a Siamese encoder causing the backbone to process each image separately, leading to increased computational cost.
+          (b) Early fusion prevents this by concatenating the bitemporal images before passing to the backbone; however, the sophisticated decoder still adds undesirable complexity.
+          (c) EoCD introduces a simple design that bypasses the extra overhead of the Siamese encoder and sophisticated decoder.
+        </p>
       </div>
-  </div>
+    </div>
+  </section>
 
-  <div class="container is-max-desktop">
-
-      <div class="columns is-centered has-text-centered">
-          <div class="column is-six-fifths"
-              style="display: flex; align-items: flex-start; justify-content: center;">
-              <figure style="text-align: center;">
-                  <img id="teaser" width="100%" src="images/intro_figure.png">
-              </figure>
-          </div>
-      </div>
-      <div class="columns is-centered">
-          <div class="column is-full-width">
-              <div class="content has-text-justified">
-                  <p>
-                   Comparison of various CD frameworks. a) In late fusion, $I_{pre}$ and $I_{post}$ are fed to Siamese encoder causing the backbone network to process each image separately which lead to increased computational cost. b) Early fusion approach prevent this by concatenating the bitemporal images before passing it to backbone, however, the sophisticated decoder still adds undesirable complexity to the model. c) EoCD introduces a simple design that bypasses the extra overhead of Siamese encoder and sophisticated decoder.
-                  </p>
-              </div>
-          </div>
-      </div>
-  </div>
-</section>
-  
   <!-- METHOD -->
-<section class="section">
-  <div class="columns is-centered has-text-centered">
-      <div class="column is-six-fifths">
-          <h2 class="title is-3"><img src="static/images/logo.png" alt="GeoVLM" width="60"
-                  style="vertical-align: bottom;"> EoCD Training Paradigm</h2>
+  <section id="method">
+    <div class="reveal">
+      <div class="section-label">Method</div>
+      <h2>EoCD Training Paradigm</h2>
+      <div class="fig-wrap">
+        <!-- Replace with: <img src="images/main_framework.png" alt="EoCD architecture"> -->
+        <div class="fig-placeholder" style="min-height:240px;">
+          <span class="ph-title">main_framework.png</span>
+          <span class="ph-hint">Replace with: &lt;img src="images/main_framework.png" alt="EoCD architecture"&gt;</span>
+        </div>
+        <p class="fig-cap">Overall architecture of the proposed EoCD. It characterizes a student–teacher framework with a decoder-less student network. The student network performs early fusion of temporal images and optimally combines the multiscale representations, thereby significantly improving the efficiency of the network.</p>
       </div>
-  </div>
+    </div>
+  </section>
 
-  <div class="container is-max-desktop">
+  <!-- RESULTS — LEVIR-CD -->
+  <section id="results">
+    <div class="reveal">
+      <div class="section-label">Results</div>
+      <h2>State-of-the-art on LEVIR-CD</h2>
+      <p>Performance comparison of state-of-the-art methods on LEVIR-CD. FLOPs and latency are computed using RGB image size of 224×224. EoCD achieves superior performance in IoU, F1, and overall accuracy while showing favorable efficiency against existing approaches.</p>
 
-      <div class="columns is-centered has-text-centered">
-          <div class="column is-six-fifths"
-              style="display: flex; align-items: flex-start; justify-content: center;">
-              <figure style="text-align: center;">
-                  <img id="teaser" width="100%" src="images/main_framework.png">
-              </figure>
+      <div class="table-legend">
+        <div class="leg-item"><div class="leg-box" style="background:var(--best-bg);border:1px solid #93c5fd;"></div>Best result</div>
+        <div class="leg-item"><div class="leg-box" style="background:var(--second-bg);border:1px solid #bfdbfe;"></div>Second best</div>
+        <div class="leg-item"><div class="leg-box" style="background:var(--ours-bg);border:1px solid var(--ours-border);"></div>EoCD (Ours)</div>
+      </div>
+
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Method</th>
+              <th>Backbone</th>
+              <th>Params (M)</th>
+              <th>FLOPs (G)</th>
+              <th>Latency (ms)</th>
+              <th>IoU (%)</th>
+              <th>F1 (%)</th>
+              <th>Accuracy (%)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>EATDer</td><td>Custom</td><td>7.12</td><td>21.30</td><td>26.2</td><td class="dash">—</td><td>91.20</td><td>98.75</td></tr>
+            <tr><td>ELGCNet-LW</td><td>Custom</td><td class="second">6.78</td><td>15.17</td><td>24.5</td><td>82.36</td><td>90.33</td><td>99.03</td></tr>
+            <tr><td>ChangeFormer</td><td>Custom</td><td>41.03</td><td>106.00</td><td>26.6</td><td>82.48</td><td>90.40</td><td>99.04</td></tr>
+            <tr><td>Convformer-CD/48</td><td>Custom</td><td>49.31</td><td>5.30</td><td>48.8</td><td class="second">84.23</td><td class="second">91.44</td><td class="second">99.13</td></tr>
+            <tr><td>RSMamba †</td><td>Mamba</td><td>27.90</td><td>15.70</td><td class="dash">—</td><td>83.66</td><td>91.10</td><td class="dash">—</td></tr>
+            <tr><td>CDMamba †</td><td>Mamba</td><td>11.91</td><td>49.26</td><td>54.77</td><td>83.07</td><td>90.75</td><td>99.06</td></tr>
+            <tr><td>BIT</td><td>ResNet-18</td><td>12.40</td><td>8.32</td><td>13.3</td><td>80.68</td><td>89.31</td><td>98.92</td></tr>
+            <tr><td>STRobustNet</td><td>ResNet-18</td><td>13.73</td><td>19.32</td><td>12.7</td><td>83.66</td><td>91.11</td><td>99.10</td></tr>
+            <tr><td>TMSF</td><td>ResNet-18</td><td>12.92</td><td>8.90</td><td>40.4</td><td>83.29</td><td>90.88</td><td class="dash">—</td></tr>
+            <tr><td>FSG-Net</td><td>ResNet-18</td><td>13.76</td><td class="dash">—</td><td class="dash">—</td><td>83.94</td><td>91.27</td><td>99.10</td></tr>
+            <tr><td>RHighNet †</td><td>ResNet-50 + ViT-B/16</td><td>120.80</td><td>69.47</td><td>98.9</td><td>84.01</td><td>91.31</td><td class="second">99.13</td></tr>
+            <tr><td>SFEARNet</td><td>SegFormer</td><td class="best">5.56</td><td class="second">3.64</td><td>26.7</td><td>83.23</td><td>90.85</td><td>99.07</td></tr>
+            <tr><td>DSFDcd</td><td>U-Net</td><td>8.94</td><td class="dash">—</td><td class="dash">—</td><td>80.34</td><td>89.11</td><td>98.93</td></tr>
+            <tr class="ours"><td>EoCD <span class="ours-tag">Ours</span></td><td>mit-b1</td><td>13.37</td><td class="best">2.49</td><td class="second">8.1</td><td>83.20</td><td>90.83</td><td>99.08</td></tr>
+            <tr class="ours"><td>EoCD <span class="ours-tag">Ours</span></td><td>ResNet-34</td><td>21.50</td><td>4.39</td><td class="best">3.8</td><td>83.33</td><td>90.91</td><td>99.09</td></tr>
+            <tr class="ours"><td>EoCD <span class="ours-tag">Ours</span></td><td>FocalNet-T</td><td>30.32</td><td>6.46</td><td>12.1</td><td class="best">84.78</td><td class="best">91.76</td><td class="best">99.17</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="table-footnote">† FLOPs and Latency reported using image size 256×256 due to model configuration constraints.</p>
+    </div>
+  </section>
+
+  <!-- RESULTS — CDD-CD & SYSU-CD -->
+  <section id="results-2">
+    <div class="reveal">
+      <div class="multi-table-row">
+
+        <!-- CDD-CD -->
+        <div class="sub-table-wrap">
+          <div class="section-label">Results</div>
+          <h2>State-of-the-art on CDD-CD</h2>
+          <p>EoCD achieves superior performance across all metrics on the CDD-CD dataset.</p>
+          <div class="table-scroll">
+            <table>
+              <thead><tr><th>Method</th><th>IoU (%)</th><th>F1 (%)</th><th>Acc (%)</th></tr></thead>
+              <tbody>
+                <tr><td>BIT</td><td>80.01</td><td>88.90</td><td>97.47</td></tr>
+                <tr><td>ChangeFormer</td><td>81.53</td><td>89.83</td><td>97.68</td></tr>
+                <tr><td>ChangeMamba</td><td>81.99</td><td>90.10</td><td>97.72</td></tr>
+                <tr><td>STRobustNet</td><td>88.08</td><td>93.66</td><td>98.50</td></tr>
+                <tr><td>ConvFormer-CD</td><td>88.63</td><td>93.96</td><td>98.59</td></tr>
+                <tr><td>CDMamba</td><td>88.81</td><td>94.06</td><td>98.57</td></tr>
+                <tr><td>DSFDcd</td><td>88.81</td><td>94.06</td><td>98.57</td></tr>
+                <tr><td>FSG-Net</td><td>88.96</td><td>94.16</td><td>98.56</td></tr>
+                <tr><td>TMSF</td><td>90.44</td><td>94.98</td><td class="dash">—</td></tr>
+                <tr><td>EATDer</td><td class="dash">—</td><td>95.97</td><td>98.97</td></tr>
+                <tr><td>ELGCNet-LW</td><td>93.48</td><td>96.63</td><td>99.21</td></tr>
+                <tr><td>RHighNet</td><td class="second">94.65</td><td class="second">97.25</td><td class="second">99.35</td></tr>
+                <tr class="ours"><td>EoCD <span class="ours-tag">Ours</span></td><td class="best">94.83</td><td class="best">97.34</td><td class="best">99.37</td></tr>
+              </tbody>
+            </table>
           </div>
-      </div>
-      <div class="columns is-centered">
-          <div class="column is-full-width">
-              <div class="content has-text-justified">
-                  <p>
-                    Overall architecture of the proposed EoCD. It characterizes a student-teacher framework with a decoder-less student network.
-The student network performs early fusion of temporal images and optimally combines the multiscale representations, thereby significantly
-improving the efficiency of the network.
-                  </p>
-              </div>
+        </div>
+
+        <!-- SYSU-CD -->
+        <div class="sub-table-wrap">
+          <div class="section-label">Results</div>
+          <h2>State-of-the-art on SYSU-CD</h2>
+          <p>EoCD performs significantly better compared to existing CD methods on SYSU-CD.</p>
+          <div class="table-scroll">
+            <table>
+              <thead><tr><th>Method</th><th>IoU (%)</th><th>F1 (%)</th><th>Acc (%)</th></tr></thead>
+              <tbody>
+                <tr><td>ChangeFormer</td><td>60.60</td><td>75.46</td><td>89.20</td></tr>
+                <tr><td>BIT</td><td>61.40</td><td>76.08</td><td>88.95</td></tr>
+                <tr><td>ConvFormer-CD/48</td><td>65.76</td><td>79.35</td><td>90.98</td></tr>
+                <tr><td>ELGCNet</td><td>66.62</td><td>79.97</td><td>90.72</td></tr>
+                <tr><td>ChangeMamba</td><td>66.39</td><td>79.80</td><td>90.85</td></tr>
+                <tr><td>DSFDcd</td><td>67.31</td><td>80.46</td><td>91.00</td></tr>
+                <tr><td>RHighNet</td><td>67.53</td><td>80.62</td><td class="second">91.33</td></tr>
+                <tr><td>STRobustNet</td><td>67.59</td><td>80.66</td><td>91.13</td></tr>
+                <tr><td>LCD-Net</td><td class="second">68.38</td><td class="second">81.22</td><td class="dash">—</td></tr>
+                <tr class="ours"><td>EoCD <span class="ours-tag">Ours</span></td><td class="best">68.67</td><td class="best">81.42</td><td class="best">91.67</td></tr>
+              </tbody>
+            </table>
           </div>
+        </div>
+
       </div>
-  </div>
-</section>
+    </div>
+  </section>
 
-
-
-  <!-- BIBTEX -->
+  <!-- RESULTS — WHU-CD -->
+  <section id="results-3">
+    <div class="reveal">
+      <div class="section-label">Results</div>
+      <h2>State-of-the-art on WHU-CD</h2>
+      <p>EoCD exhibits substantial progress across all metrics on WHU-CD, indicating better capabilities to capture semantic changes.</p>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>Method</th><th>IoU (%)</th><th>F1 (%)</th><th>Accuracy (%)</th></tr></thead>
+          <tbody>
+            <tr><td>BIT</td><td>72.39</td><td>83.98</td><td>98.75</td></tr>
+            <tr><td>ChangeFormer</td><td>73.80</td><td>84.93</td><td>98.82</td></tr>
+            <tr><td>ELGCNet</td><td>80.86</td><td>89.42</td><td>99.20</td></tr>
+            <tr><td>EATDer</td><td class="dash">—</td><td>90.01</td><td>98.58</td></tr>
+            <tr><td>TMSF</td><td>80.09</td><td>88.95</td><td class="dash">—</td></tr>
+            <tr><td>RSMamba</td><td>84.96</td><td>91.87</td><td class="dash">—</td></tr>
+            <tr><td>STRobustNet</td><td>83.29</td><td>90.89</td><td>99.32</td></tr>
+            <tr><td>RHighNet</td><td>83.79</td><td>91.18</td><td>99.32</td></tr>
+            <tr><td>ScratchFormer</td><td>84.97</td><td>91.89</td><td>99.37</td></tr>
+            <tr><td>ConvFormer-CD</td><td>85.41</td><td>92.13</td><td>99.26</td></tr>
+            <tr><td>SFEARNet</td><td class="second">85.81</td><td class="second">92.36</td><td class="second">99.38</td></tr>
+            <tr class="ours"><td>EoCD <span class="ours-tag">Ours</span></td><td class="best">87.17</td><td class="best">93.15</td><td class="best">99.47</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
   <section id="bibtex">
     <div class="reveal">
       <div class="section-label">Citation</div>
@@ -732,32 +534,23 @@ improving the efficiency of the network.
     </div>
   </section>
 
-</div><!-- /page -->
+</div>
 
 <footer>
-  <p>
-    This page was built using the
-    <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a>
-    adopted from the <a href="https://nerfies.github.io" target="_blank">Nerfies</a> project page.
-    Licensed under
-    <a href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>.
-  </p>
+  <p>© 2026 EoCD Authors. All rights reserved.</p>
 </footer>
 
 <script>
-  // Scroll reveal
   const reveals = document.querySelectorAll('.reveal');
   const io = new IntersectionObserver((entries) => {
     entries.forEach(e => {
       if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
     });
-  }, { threshold: 0.08 });
+  }, { threshold: 0.06 });
   reveals.forEach(el => io.observe(el));
 
-  // Copy bibtex
   function copyBib(btn) {
-    const text = document.getElementById('bib').textContent;
-    navigator.clipboard.writeText(text).then(() => {
+    navigator.clipboard.writeText(document.getElementById('bib').textContent).then(() => {
       btn.textContent = 'Copied!';
       btn.classList.add('copied');
       setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
