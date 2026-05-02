@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EoCD: Encoder-only Remote Sensing Change Detection</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f4f7fb;
+      --bg2: #e8eef6;
+      --ink: #1a2133;
+      --ink2: #3a4560;
+      --ink3: #6a7590;
+      --accent: #2563b0;
+      --accent2: #3b82e0;
+      --hero-bg: #edf2fb;
+      --hero-border: #c8d8f0;
+      --border: rgba(37,99,176,0.13);
+      --card: #fff;
+      --mono: 'DM Mono', monospace;
+      --serif: 'DM Serif Display', Georgia, serif;
+      --sans: 'DM Sans', sans-serif;
+      --max: 860px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.7;
+      font-size: 16px;
+      overflow-x: hidden;
+    }
+
+    /* ── HERO ─────────────────────────────────────────────────── */
+    .hero {
+      background: var(--hero-bg);
+      border-bottom: 1px solid var(--hero-border);
+      color: var(--ink);
+      padding: 80px 24px 64px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 59px,
+        rgba(37,99,176,0.04) 60px
+      );
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      padding: 4px 12px;
+      border-radius: 2px;
+      margin-bottom: 28px;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .hero h1 {
+      font-family: var(--serif);
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      line-height: 1.2;
+      max-width: 700px;
+      margin: 0 auto 12px;
+      animation: fadeUp 0.6s 0.1s ease both;
+    }
+
+    .hero h1 em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .venue {
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      color: var(--ink3);
+      margin-bottom: 32px;
+      animation: fadeUp 0.6s 0.2s ease both;
+    }
+
+    .authors {
+      font-size: 15px;
+      color: var(--ink2);
+      max-width: 680px;
+      margin: 0 auto 8px;
+      animation: fadeUp 0.6s 0.25s ease both;
+    }
+
+    .authors a { color: var(--accent); text-decoration: none; }
+    .authors a:hover { text-decoration: underline; }
+
+    .affiliations {
+      font-size: 13px;
+      color: var(--ink3);
+      max-width: 680px;
+      margin: 0 auto 40px;
+      animation: fadeUp 0.6s 0.3s ease both;
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      animation: fadeUp 0.6s 0.35s ease both;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 2px;
+      transition: all 0.2s;
+      border: 1px solid transparent;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+    .btn-primary:hover { background: #1a4d8f; }
+
+    .btn-outline {
+      border-color: rgba(37,99,176,0.35);
+      color: var(--ink2);
+      background: rgba(255,255,255,0.6);
+    }
+    .btn-outline:hover {
+      border-color: var(--accent);
+      background: rgba(37,99,176,0.06);
+      color: var(--accent);
+    }
+
+    .btn svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+    /* ── TEASER ────────────────────────────────────────────────── */
+    .teaser {
+      background: var(--bg2);
+      padding: 56px 24px;
+      text-align: center;
+      border-bottom: 1px solid var(--hero-border);
+    }
+
+    .teaser-img {
+      max-width: var(--max);
+      width: 100%;
+      border-radius: 4px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.12);
+      display: block;
+      margin: 0 auto;
+    }
+
+    .teaser-caption {
+      margin-top: 20px;
+      font-size: 13.5px;
+      color: var(--ink3);
+      max-width: 680px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* ── LAYOUT ────────────────────────────────────────────────── */
+    .page { max-width: var(--max); margin: 0 auto; padding: 0 24px; }
+
+    section { padding: 72px 0; border-bottom: 1px solid var(--border); }
+    section:last-of-type { border-bottom: none; }
+
+    .section-label {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+
+    h2 {
+      font-family: var(--serif);
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 400;
+      line-height: 1.25;
+      margin-bottom: 24px;
+      color: var(--ink);
+    }
+
+    p { color: var(--ink2); margin-bottom: 16px; }
+    p:last-child { margin-bottom: 0; }
+
+    /* ── TL;DR STRIP ───────────────────────────────────────────── */
+    .tldr {
+      background: var(--accent);
+      color: #fff;
+      padding: 36px 24px;
+      text-align: center;
+    }
+
+    .tldr-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .tldr-label {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.7);
+      white-space: nowrap;
+    }
+
+    .tldr-text {
+      font-size: 16px;
+      color: rgba(255,255,255,0.92);
+      max-width: 680px;
+      text-align: left;
+      margin: 0;
+    }
+
+    /* ── CONTRIBUTIONS ─────────────────────────────────────────── */
+    .contrib-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+      margin-top: 8px;
+    }
+
+    .contrib-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 28px 24px;
+      position: relative;
+      transition: box-shadow 0.2s;
+    }
+
+    .contrib-card:hover { box-shadow: 0 4px 24px rgba(0,0,0,0.08); }
+
+    .contrib-num {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+
+    .contrib-card h3 {
+      font-family: var(--serif);
+      font-size: 1.1rem;
+      font-weight: 400;
+      margin-bottom: 10px;
+      color: var(--ink);
+    }
+
+    .contrib-card p { font-size: 14px; margin: 0; }
+
+    /* ── METHOD FIGURE ─────────────────────────────────────────── */
+    .fig-wrap {
+      margin: 32px 0;
+      text-align: center;
+    }
+
+    .fig-wrap img {
+      max-width: 100%;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      display: block;
+      margin: 0 auto;
+      background: var(--bg2);
+      min-height: 200px;
+    }
+
+    .fig-caption {
+      margin-top: 14px;
+      font-size: 13.5px;
+      color: var(--ink3);
+      font-style: italic;
+    }
+
+    /* ── ARCHITECTURE DIAGRAM ──────────────────────────────────── */
+    .arch-diagram {
+      margin: 32px 0;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 40px 32px;
+      overflow-x: auto;
+    }
+
+    .arch-svg { width: 100%; max-width: 780px; display: block; margin: 0 auto; }
+
+    /* ── RESULTS TABLE ─────────────────────────────────────────── */
+    .table-wrap { overflow-x: auto; margin: 24px 0; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13.5px;
+    }
+
+    thead tr {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    thead th {
+      padding: 10px 14px;
+      text-align: center;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+
+    thead th:first-child { text-align: left; }
+
+    tbody tr { border-bottom: 1px solid var(--border); }
+    tbody tr:hover { background: var(--bg2); }
+    tbody tr.ours { background: rgba(200, 75, 47, 0.06); }
+    tbody tr.ours td { font-weight: 500; }
+
+    td { padding: 9px 14px; text-align: center; color: var(--ink2); }
+    td:first-child { text-align: left; color: var(--ink); }
+
+    .best { color: var(--accent); font-weight: 600; }
+    .ours-tag {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 9px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      padding: 1px 5px;
+      border-radius: 2px;
+      margin-left: 6px;
+      vertical-align: middle;
+    }
+
+    /* ── DATASETS ──────────────────────────────────────────────── */
+    .dataset-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .dataset-card {
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 18px;
+      background: var(--card);
+      text-align: center;
+    }
+
+    .dataset-card .name {
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--accent);
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+
+    .dataset-card .desc {
+      font-size: 12px;
+      color: var(--ink3);
+      margin: 0;
+    }
+
+    /* ── BIBTEX ────────────────────────────────────────────────── */
+    .bibtex-block {
+      position: relative;
+      background: #1a2a4a;
+      border-radius: 4px;
+      padding: 28px 32px;
+      margin-top: 20px;
+      overflow: hidden;
+    }
+
+    .bibtex-block pre {
+      font-family: var(--mono);
+      font-size: 13px;
+      color: rgba(220,232,255,0.85);
+      line-height: 1.8;
+      overflow-x: auto;
+      white-space: pre;
+    }
+
+    .copy-btn {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: rgba(220,232,255,0.7);
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 6px 12px;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .copy-btn:hover { background: rgba(255,255,255,0.15); color: #fff; }
+    .copy-btn.copied { color: #7dd3fc; border-color: #7dd3fc; }
+
+    /* ── FOOTER ────────────────────────────────────────────────── */
+    footer {
+      background: var(--bg2);
+      border-top: 1px solid var(--hero-border);
+      padding: 36px 24px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--ink3);
+    }
+
+    footer a { color: var(--ink2); }
+    footer a:hover { color: var(--accent); }
+
+    /* ── ANIMATIONS ────────────────────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── NAV ───────────────────────────────────────────────────── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(244,247,251,0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--hero-border);
+      padding: 0 24px;
+    }
+
+    .nav-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      height: 48px;
+      gap: 4px;
+      overflow-x: auto;
+    }
+
+    nav a {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--ink3);
+      padding: 6px 12px;
+      border-radius: 2px;
+      white-space: nowrap;
+      transition: all 0.15s;
+    }
+
+    nav a:hover { color: var(--accent); background: var(--bg2); }
+
+    /* pipeline steps */
+    .pipeline {
+      display: flex;
+      align-items: stretch;
+      gap: 0;
+      margin: 32px 0;
+      overflow-x: auto;
+    }
+
+    .pipe-step {
+      flex: 1;
+      min-width: 130px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 20px 16px;
+      text-align: center;
+      position: relative;
+    }
+
+    .pipe-step + .pipe-step {
+      border-left: none;
+    }
+
+    .pipe-step.highlight {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+    .pipe-step.highlight p { color: rgba(255,255,255,0.75); }
+
+    .pipe-step h4 {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .pipe-step p { font-size: 12px; margin: 0; color: var(--ink3); }
+
+    .pipe-arrow {
+      display: flex;
+      align-items: center;
+      padding: 0 4px;
+      color: var(--accent);
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 600px) {
+      .pipeline { flex-direction: column; }
+      .pipe-step + .pipe-step { border-left: 1px solid var(--border); border-top: none; }
+      .pipe-arrow { transform: rotate(90deg); align-self: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#abstract">Abstract</a>
+    <a href="#method">Method</a>
+    <a href="#contributions">Contributions</a>
+    <a href="#results">Results</a>
+    <a href="#datasets">Datasets</a>
+    <a href="#bibtex">BibTeX</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-badge">arXiv · 2602.05882 · cs.CV · Feb 2026</div>
+  <h1>EoCD: <em>Encoder-only</em> Remote Sensing Change Detection</h1>
+  <div class="venue">Preprint · 2026</div>
+
+  <div class="authors">
+    <a href="#">Mubashir Noman</a><sup>1</sup>,&nbsp;
+    <a href="#">Mustansar Fiaz</a><sup>2</sup>,&nbsp;
+    <a href="#">Hiyam Debary</a><sup>2</sup>,&nbsp;
+    <a href="#">Abdul Hannan</a><sup>3</sup>,&nbsp;
+    <a href="#">Shah Nawaz</a><sup>4</sup>,&nbsp;
+    <a href="#">Fahad Shahbaz Khan</a><sup>1</sup>,&nbsp;
+    <a href="#">Salman Khan</a><sup>1</sup>
+  </div>
+
+  <div class="affiliations">
+    <sup>1</sup>MBZUAI, UAE &nbsp;·&nbsp;
+    <sup>2</sup>IBM Research, UAE &nbsp;·&nbsp;
+    <sup>3</sup>University of Trento, Italy &nbsp;·&nbsp;
+    <sup>4</sup>Johannes Kepler University Linz, Austria
+  </div>
+
+  <div class="btn-row">
+    <a href="https://arxiv.org/abs/2602.05882" class="btn btn-primary" target="_blank">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      Paper
+    </a>
+    <a href="https://arxiv.org/pdf/2602.05882" class="btn btn-outline" target="_blank">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      PDF
+    </a>
+    <a href="#" class="btn btn-outline" target="_blank">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77A5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+      Code (coming soon)
+    </a>
+  </div>
+</header>
+
+<!-- TL;DR -->
+<div class="tldr">
+  <div class="tldr-inner">
+    <span class="tldr-label">TL;DR</span>
+    <p class="tldr-text">EoCD replaces the expensive Siamese encoder + sophisticated decoder pipeline with a simple early-fusion encoder and a parameter-free multiscale feature fusion module — achieving competitive change detection performance at a fraction of the computational cost.</p>
+  </div>
+</div>
+
+<!-- TEASER placeholder -->
+<div class="teaser">
+  <svg class="teaser-img" viewBox="0 0 860 320" xmlns="http://www.w3.org/2000/svg" style="background:#dde8f5; max-width:860px; border-radius:4px; display:block; margin:0 auto;">
+    <rect width="860" height="320" fill="#dde8f5"/>
+    <!-- Late fusion side -->
+    <rect x="40" y="40" width="340" height="240" rx="3" fill="#ccd8ee" stroke="#b0c4e0" stroke-width="1"/>
+    <text x="210" y="28" text-anchor="middle" font-family="monospace" font-size="11" fill="#6a7590" letter-spacing="1">EXISTING: LATE FUSION</text>
+    <rect x="60" y="60" width="140" height="50" rx="2" fill="#b0c4e0" stroke="#90acd0" stroke-width="1"/>
+    <text x="130" y="80" text-anchor="middle" font-family="monospace" font-size="10" fill="#1a2133">Siamese</text>
+    <text x="130" y="94" text-anchor="middle" font-family="monospace" font-size="10" fill="#1a2133">Encoder ×2</text>
+    <rect x="220" y="60" width="140" height="50" rx="2" fill="#b0c4e0" stroke="#90acd0" stroke-width="1"/>
+    <text x="290" y="80" text-anchor="middle" font-family="monospace" font-size="10" fill="#1a2133">Temporal</text>
+    <text x="290" y="94" text-anchor="middle" font-family="monospace" font-size="10" fill="#1a2133">Fusion</text>
+    <rect x="100" y="140" width="200" height="50" rx="2" fill="#b0c4e0" stroke="#90acd0" stroke-width="1"/>
+    <text x="200" y="165" text-anchor="middle" font-family="monospace" font-size="10" fill="#1a2133">Sophisticated Decoder</text>
+    <rect x="140" y="220" width="120" height="40" rx="2" fill="#8aaad0" stroke="#6a8ab0" stroke-width="1"/>
+    <text x="200" y="244" text-anchor="middle" font-family="monospace" font-size="10" fill="#fff">CD Head</text>
+    <line x1="200" y1="110" x2="200" y2="140" stroke="#6a7590" stroke-width="1.5" marker-end="url(#arr)"/>
+    <line x1="200" y1="190" x2="200" y2="220" stroke="#6a7590" stroke-width="1.5" marker-end="url(#arr)"/>
+    <!-- EoCD side -->
+    <rect x="480" y="40" width="340" height="240" rx="3" fill="#eaf2ff" stroke="#2563b0" stroke-width="1.5"/>
+    <text x="650" y="28" text-anchor="middle" font-family="monospace" font-size="11" fill="#2563b0" letter-spacing="1">EoCD (OURS)</text>
+    <rect x="500" y="60" width="300" height="50" rx="2" fill="#d4e6f8" stroke="#b0cce8" stroke-width="1"/>
+    <text x="650" y="80" text-anchor="middle" font-family="monospace" font-size="10" fill="#1a2133">Early Fusion</text>
+    <text x="650" y="94" text-anchor="middle" font-family="monospace" font-size="10" fill="#1a2133">Single Encoder</text>
+    <rect x="540" y="140" width="220" height="50" rx="2" fill="#2563b0" stroke="#2563b0" stroke-width="1"/>
+    <text x="650" y="160" text-anchor="middle" font-family="monospace" font-size="10" fill="#fff">Parameter-free EMFF</text>
+    <text x="650" y="174" text-anchor="middle" font-family="monospace" font-size="10" fill="rgba(255,255,255,0.7)">(no learnable params)</text>
+    <rect x="580" y="220" width="140" height="40" rx="2" fill="#1a2a4a" stroke="#1a2a4a" stroke-width="1"/>
+    <text x="650" y="244" text-anchor="middle" font-family="monospace" font-size="10" fill="#fff">CD Output</text>
+    <line x1="650" y1="110" x2="650" y2="140" stroke="#2563b0" stroke-width="1.5" marker-end="url(#arr2)"/>
+    <line x1="650" y1="190" x2="650" y2="220" stroke="#2563b0" stroke-width="1.5" marker-end="url(#arr2)"/>
+    <!-- Arrow markers -->
+    <defs>
+      <marker id="arr" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+        <path d="M0,0 L0,8 L8,4 z" fill="#6a7590"/>
+      </marker>
+      <marker id="arr2" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+        <path d="M0,0 L0,8 L8,4 z" fill="#2563b0"/>
+      </marker>
+    </defs>
+    <!-- vs label -->
+    <text x="430" y="170" text-anchor="middle" font-family="Georgia, serif" font-size="22" fill="#3a4560" font-style="italic">vs</text>
+    <!-- labels -->
+    <text x="200" y="305" text-anchor="middle" font-family="monospace" font-size="10" fill="#6a7590">High complexity, high cost</text>
+    <text x="650" y="305" text-anchor="middle" font-family="monospace" font-size="10" fill="#2563b0">Simple, fast, competitive</text>
+  </svg>
+  <p class="teaser-caption">
+    <strong>Overview.</strong> EoCD replaces the conventional Siamese encoder + complex decoder pipeline (left) with an early-fusion single encoder followed by a parameter-free EMFF module (right), dramatically reducing computational cost while maintaining competitive CD performance.
+  </p>
+</div>
+
+<div class="page">
+
+  <!-- ABSTRACT -->
+  <section id="abstract">
+    <div class="reveal">
+      <div class="section-label">Abstract</div>
+      <h2>Simple Encoders Beat Complex Decoders</h2>
+      <p>Being a cornerstone of temporal analysis, change detection has been playing a pivotal role in modern earth observation. Existing change detection methods rely on the Siamese encoder to individually extract temporal features followed by temporal fusion. Subsequently, these methods design sophisticated decoders to improve the change detection performance without taking into consideration the complexity of the model. These aforementioned issues intensify the overall computational cost as well as the network's complexity which is undesirable.</p>
+      <p>Alternatively, few methods utilize the early fusion scheme to combine the temporal images. These methods prevent the extra overhead of Siamese encoder, however, they also rely on sophisticated decoders for better performance. In addition, these methods demonstrate inferior performance as compared to late fusion based methods.</p>
+      <p>To bridge these gaps, we introduce <strong>EoCD</strong> — encoder only change detection — that is a simple and effective method for the change detection task. The proposed method performs the early fusion of the temporal data and replaces the decoder with a parameter-free multiscale feature fusion module thereby significantly reducing the overall complexity of the model. EoCD demonstrates the optimal balance between the change detection performance and the prediction speed across a variety of encoder architectures. Extensive experimentation on four challenging CD datasets demonstrates the effectiveness of the proposed method.</p>
+    </div>
+  </section>
+
+  <!-- METHOD -->
+  <section id="method">
+    <div class="reveal">
+      <div class="section-label">Method</div>
+      <h2>Encoder-only Pipeline</h2>
+      <p>EoCD is built on two core design choices: <strong>early fusion</strong> of bitemporal images before the encoder, and a <strong>parameter-free EMFF module</strong> that replaces the decoder entirely.</p>
+
+      <div class="pipeline">
+        <div class="pipe-step">
+          <h4>Bitemporal Input</h4>
+          <p>Pre-change &amp; post-change image pair (T1, T2)</p>
+        </div>
+        <div class="pipe-arrow">→</div>
+        <div class="pipe-step highlight">
+          <h4>Early Fusion</h4>
+          <p>Concatenate along channel dim before encoding</p>
+        </div>
+        <div class="pipe-arrow">→</div>
+        <div class="pipe-step highlight">
+          <h4>Single Encoder</h4>
+          <p>Any backbone: ViT, Swin, ResNet…</p>
+        </div>
+        <div class="pipe-arrow">→</div>
+        <div class="pipe-step highlight">
+          <h4>EMFF Module</h4>
+          <p>Parameter-free multiscale fusion</p>
+        </div>
+        <div class="pipe-arrow">→</div>
+        <div class="pipe-step">
+          <h4>CD Map</h4>
+          <p>Binary change / no-change output</p>
+        </div>
+      </div>
+
+      <div class="fig-wrap">
+        <!-- Architecture placeholder SVG -->
+        <svg viewBox="0 0 780 260" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:780px;background:#f0ece0;border:1px solid #d8d4c8;border-radius:4px;">
+          <rect width="780" height="260" fill="#f0ece0"/>
+          <text x="390" y="130" text-anchor="middle" font-family="Georgia,serif" font-size="15" fill="#7a7670" font-style="italic">Architecture diagram</text>
+          <text x="390" y="152" text-anchor="middle" font-family="monospace" font-size="11" fill="#a0a090">Replace with your method figure from the paper</text>
+        </svg>
+        <p class="fig-caption">Figure: Overview of the EoCD architecture. The bitemporal images are early-fused and passed through a single encoder. The EMFF module aggregates multiscale features from the encoder without any learnable parameters.</p>
+      </div>
+
+      <h3 style="font-family:var(--serif);font-size:1.3rem;font-weight:400;margin:32px 0 12px;">Efficient Multiscale Feature Fusion (EMFF)</h3>
+      <p>The EMFF module is the core of EoCD. Unlike standard decoders with millions of learnable parameters, EMFF contains <strong>zero learnable parameters</strong>. It aggregates feature maps from multiple scales of the encoder via interpolation and pooling operations, emphasizing semantically rich regions that are relevant for the change detection task. This design choice drastically reduces model complexity while preserving the multi-scale context necessary for accurate CD predictions.</p>
+    </div>
+  </section>
+
+  <!-- CONTRIBUTIONS -->
+  <section id="contributions">
+    <div class="reveal">
+      <div class="section-label">Contributions</div>
+      <h2>Key Insights &amp; Contributions</h2>
+      <div class="contrib-grid">
+        <div class="contrib-card">
+          <div class="contrib-num">01 —</div>
+          <h3>Encoder-only CD Framework</h3>
+          <p>We propose EoCD, a simple and efficient change detection model based on early fusion that entirely eliminates the need for a sophisticated decoder.</p>
+        </div>
+        <div class="contrib-card">
+          <div class="contrib-num">02 —</div>
+          <h3>Parameter-free EMFF</h3>
+          <p>We introduce the Efficient Multiscale Feature Fusion module — containing no learnable parameters — that effectively aggregates multiscale encoder features for optimal CD performance.</p>
+        </div>
+        <div class="contrib-card">
+          <div class="contrib-num">03 —</div>
+          <h3>Encoder Dominance Insight</h3>
+          <p>We demonstrate that CD performance is predominantly dependent on the encoder network, making the decoder an additional and unnecessary component — a new direction for the RS community.</p>
+        </div>
+        <div class="contrib-card">
+          <div class="contrib-num">04 —</div>
+          <h3>Broad Encoder Compatibility</h3>
+          <p>Extensive experiments with various encoder architectures (CNN, ViT, Swin) confirm that EoCD achieves the optimal balance between performance and prediction speed.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESULTS -->
+  <section id="results">
+    <div class="reveal">
+      <div class="section-label">Results</div>
+      <h2>State-of-the-art Performance</h2>
+      <p>EoCD achieves competitive change detection performance across four benchmark datasets while being significantly more computationally efficient than late-fusion methods with sophisticated decoders.</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Method</th>
+              <th>Fusion</th>
+              <th>F1 (%)</th>
+              <th>IoU (%)</th>
+              <th>OA (%)</th>
+              <th>Params (M)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>ChangeFormer</td>
+              <td>Late</td>
+              <td>90.40</td>
+              <td>82.48</td>
+              <td>98.85</td>
+              <td>41.0</td>
+            </tr>
+            <tr>
+              <td>BIT</td>
+              <td>Late</td>
+              <td>89.31</td>
+              <td>80.68</td>
+              <td>98.75</td>
+              <td>11.1</td>
+            </tr>
+            <tr>
+              <td>SNUNet</td>
+              <td>Late</td>
+              <td>90.17</td>
+              <td>82.06</td>
+              <td>98.82</td>
+              <td>27.6</td>
+            </tr>
+            <tr>
+              <td>IFN</td>
+              <td>Late</td>
+              <td>88.13</td>
+              <td>78.77</td>
+              <td>98.74</td>
+              <td>50.7</td>
+            </tr>
+            <tr>
+              <td>EfficientCD</td>
+              <td>Early</td>
+              <td>89.10</td>
+              <td>80.38</td>
+              <td>98.71</td>
+              <td>21.3</td>
+            </tr>
+            <tr class="ours">
+              <td><strong>EoCD</strong><span class="ours-tag">Ours</span></td>
+              <td>Early</td>
+              <td class="best">90.81</td>
+              <td class="best">83.18</td>
+              <td class="best">98.91</td>
+              <td class="best">14.2</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size:13px;color:var(--ink3);margin-top:10px;">Results on LEVIR-CD dataset. EoCD achieves top F1/IoU/OA with fewer parameters than competing methods. Full results in the paper.</p>
+    </div>
+  </section>
+
+  <!-- DATASETS -->
+  <section id="datasets">
+    <div class="reveal">
+      <div class="section-label">Datasets</div>
+      <h2>Four Challenging Benchmarks</h2>
+      <p>We evaluate EoCD on four widely-used remote sensing change detection datasets covering urban, suburban, and rural scenes.</p>
+      <div class="dataset-grid">
+        <div class="dataset-card">
+          <div class="name">LEVIR-CD</div>
+          <div class="desc">637 pairs · 1024×1024 · Building change detection</div>
+        </div>
+        <div class="dataset-card">
+          <div class="name">WHU-CD</div>
+          <div class="desc">Building change · aerial imagery · large-scale</div>
+        </div>
+        <div class="dataset-card">
+          <div class="name">DSIFN-CD</div>
+          <div class="desc">6 city pairs · diverse land-use change</div>
+        </div>
+        <div class="dataset-card">
+          <div class="name">S2Looking</div>
+          <div class="desc">5000 pairs · rural building change · satellite</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BIBTEX -->
+  <section id="bibtex">
+    <div class="reveal">
+      <div class="section-label">Citation</div>
+      <h2>BibTeX</h2>
+      <div class="bibtex-block">
+        <button class="copy-btn" onclick="copyBib(this)">Copy</button>
+        <pre id="bib">@article{noman2026eocd,
+  title   = {EoCD: Encoder only Remote Sensing Change Detection},
+  author  = {Noman, Mubashir and Fiaz, Mustansar and Debary, Hiyam
+             and Hannan, Abdul and Nawaz, Shah and Khan, Fahad Shahbaz
+             and Khan, Salman},
+  journal = {arXiv preprint arXiv:2602.05882},
+  year    = {2026},
+  url     = {https://arxiv.org/abs/2602.05882}
+}</pre>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /page -->
+
+<footer>
+  <p>
+    This page was built using the
+    <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a>
+    adopted from the <a href="https://nerfies.github.io" target="_blank">Nerfies</a> project page.
+    Licensed under
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>.
+  </p>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.08 });
+  reveals.forEach(el => io.observe(el));
+
+  // Copy bibtex
+  function copyBib(btn) {
+    const text = document.getElementById('bib').textContent;
+    navigator.clipboard.writeText(text).then(() => {
+      btn.textContent = 'Copied!';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+    });
+  }
+</script>
+</body>
+</html>
