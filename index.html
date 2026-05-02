@@ -615,68 +615,6 @@
   </div>
 </header>
 
-<!-- TL;DR -->
-<div class="tldr">
-  <div class="tldr-inner">
-    <span class="tldr-label">TL;DR</span>
-    <p class="tldr-text">EoCD replaces the expensive Siamese encoder + sophisticated decoder pipeline with a simple early-fusion encoder and a parameter-free multiscale feature fusion module — achieving competitive change detection performance at a fraction of the computational cost.</p>
-  </div>
-</div>
-
-<!-- TEASER placeholder -->
-<div class="teaser">
-  <svg class="teaser-img" viewBox="0 0 860 320" xmlns="http://www.w3.org/2000/svg" style="background:#dde8f5; max-width:860px; border-radius:4px; display:block; margin:0 auto;">
-    <rect width="860" height="320" fill="#dde8f5"/>
-    <!-- Late fusion side -->
-    <rect x="40" y="40" width="340" height="240" rx="3" fill="#ccd8ee" stroke="#b0c4e0" stroke-width="1"/>
-    <text x="210" y="28" text-anchor="middle" font-family="monospace" font-size="11" fill="#6a7590" letter-spacing="1">EXISTING: LATE FUSION</text>
-    <rect x="60" y="60" width="140" height="50" rx="2" fill="#b0c4e0" stroke="#90acd0" stroke-width="1"/>
-    <text x="130" y="80" text-anchor="middle" font-family="monospace" font-size="10" fill="#1a2133">Siamese</text>
-    <text x="130" y="94" text-anchor="middle" font-family="monospace" font-size="10" fill="#1a2133">Encoder ×2</text>
-    <rect x="220" y="60" width="140" height="50" rx="2" fill="#b0c4e0" stroke="#90acd0" stroke-width="1"/>
-    <text x="290" y="80" text-anchor="middle" font-family="monospace" font-size="10" fill="#1a2133">Temporal</text>
-    <text x="290" y="94" text-anchor="middle" font-family="monospace" font-size="10" fill="#1a2133">Fusion</text>
-    <rect x="100" y="140" width="200" height="50" rx="2" fill="#b0c4e0" stroke="#90acd0" stroke-width="1"/>
-    <text x="200" y="165" text-anchor="middle" font-family="monospace" font-size="10" fill="#1a2133">Sophisticated Decoder</text>
-    <rect x="140" y="220" width="120" height="40" rx="2" fill="#8aaad0" stroke="#6a8ab0" stroke-width="1"/>
-    <text x="200" y="244" text-anchor="middle" font-family="monospace" font-size="10" fill="#fff">CD Head</text>
-    <line x1="200" y1="110" x2="200" y2="140" stroke="#6a7590" stroke-width="1.5" marker-end="url(#arr)"/>
-    <line x1="200" y1="190" x2="200" y2="220" stroke="#6a7590" stroke-width="1.5" marker-end="url(#arr)"/>
-    <!-- EoCD side -->
-    <rect x="480" y="40" width="340" height="240" rx="3" fill="#eaf2ff" stroke="#2563b0" stroke-width="1.5"/>
-    <text x="650" y="28" text-anchor="middle" font-family="monospace" font-size="11" fill="#2563b0" letter-spacing="1">EoCD (OURS)</text>
-    <rect x="500" y="60" width="300" height="50" rx="2" fill="#d4e6f8" stroke="#b0cce8" stroke-width="1"/>
-    <text x="650" y="80" text-anchor="middle" font-family="monospace" font-size="10" fill="#1a2133">Early Fusion</text>
-    <text x="650" y="94" text-anchor="middle" font-family="monospace" font-size="10" fill="#1a2133">Single Encoder</text>
-    <rect x="540" y="140" width="220" height="50" rx="2" fill="#2563b0" stroke="#2563b0" stroke-width="1"/>
-    <text x="650" y="160" text-anchor="middle" font-family="monospace" font-size="10" fill="#fff">Parameter-free EMFF</text>
-    <text x="650" y="174" text-anchor="middle" font-family="monospace" font-size="10" fill="rgba(255,255,255,0.7)">(no learnable params)</text>
-    <rect x="580" y="220" width="140" height="40" rx="2" fill="#1a2a4a" stroke="#1a2a4a" stroke-width="1"/>
-    <text x="650" y="244" text-anchor="middle" font-family="monospace" font-size="10" fill="#fff">CD Output</text>
-    <line x1="650" y1="110" x2="650" y2="140" stroke="#2563b0" stroke-width="1.5" marker-end="url(#arr2)"/>
-    <line x1="650" y1="190" x2="650" y2="220" stroke="#2563b0" stroke-width="1.5" marker-end="url(#arr2)"/>
-    <!-- Arrow markers -->
-    <defs>
-      <marker id="arr" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
-        <path d="M0,0 L0,8 L8,4 z" fill="#6a7590"/>
-      </marker>
-      <marker id="arr2" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
-        <path d="M0,0 L0,8 L8,4 z" fill="#2563b0"/>
-      </marker>
-    </defs>
-    <!-- vs label -->
-    <text x="430" y="170" text-anchor="middle" font-family="Georgia, serif" font-size="22" fill="#3a4560" font-style="italic">vs</text>
-    <!-- labels -->
-    <text x="200" y="305" text-anchor="middle" font-family="monospace" font-size="10" fill="#6a7590">High complexity, high cost</text>
-    <text x="650" y="305" text-anchor="middle" font-family="monospace" font-size="10" fill="#2563b0">Simple, fast, competitive</text>
-  </svg>
-  <p class="teaser-caption">
-    <strong>Overview.</strong> EoCD replaces the conventional Siamese encoder + complex decoder pipeline (left) with an early-fusion single encoder followed by a parameter-free EMFF module (right), dramatically reducing computational cost while maintaining competitive CD performance.
-  </p>
-</div>
-
-<div class="page">
-
 
   <!-- CONTRIBUTIONS -->
   <section id="contributions">
@@ -723,7 +661,7 @@
           <div class="column is-six-fifths"
               style="display: flex; align-items: flex-start; justify-content: center;">
               <figure style="text-align: center;">
-                  <img id="teaser" width="100%" src="images/main_framework.png">
+                  <img id="teaser" width="100%" src="images/intro_figure.png">
               </figure>
           </div>
       </div>
