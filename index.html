@@ -689,53 +689,37 @@
   </section>
 
   <!-- METHOD -->
-  <section id="method">
-    <div class="reveal">
-      <div class="section-label">Method</div>
-      <h2>Encoder-only Pipeline</h2>
-      <p>EoCD is built on two core design choices: <strong>early fusion</strong> of bitemporal images before the encoder, and a <strong>parameter-free EMFF module</strong> that replaces the decoder entirely.</p>
-
-      <div class="pipeline">
-        <div class="pipe-step">
-          <h4>Bitemporal Input</h4>
-          <p>Pre-change &amp; post-change image pair (T1, T2)</p>
-        </div>
-        <div class="pipe-arrow">→</div>
-        <div class="pipe-step highlight">
-          <h4>Early Fusion</h4>
-          <p>Concatenate along channel dim before encoding</p>
-        </div>
-        <div class="pipe-arrow">→</div>
-        <div class="pipe-step highlight">
-          <h4>Single Encoder</h4>
-          <p>Any backbone: ViT, Swin, ResNet…</p>
-        </div>
-        <div class="pipe-arrow">→</div>
-        <div class="pipe-step highlight">
-          <h4>EMFF Module</h4>
-          <p>Parameter-free multiscale fusion</p>
-        </div>
-        <div class="pipe-arrow">→</div>
-        <div class="pipe-step">
-          <h4>CD Map</h4>
-          <p>Binary change / no-change output</p>
-        </div>
+<section class="section">
+  <div class="columns is-centered has-text-centered">
+      <div class="column is-six-fifths">
+          <h2 class="title is-3"><img src="static/images/logo.png" alt="GeoVLM" width="60"
+                  style="vertical-align: bottom;"> GeoVLM-R1: RL Training Paradigm</h2>
       </div>
+  </div>
 
-      <div class="fig-wrap">
-        <!-- Architecture placeholder SVG -->
-        <svg viewBox="0 0 780 260" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:780px;background:#f0ece0;border:1px solid #d8d4c8;border-radius:4px;">
-          <rect width="780" height="260" fill="#f0ece0"/>
-          <text x="390" y="130" text-anchor="middle" font-family="Georgia,serif" font-size="15" fill="#7a7670" font-style="italic">Architecture diagram</text>
-          <text x="390" y="152" text-anchor="middle" font-family="monospace" font-size="11" fill="#a0a090">Replace with your method figure from the paper</text>
-        </svg>
-        <p class="fig-caption">Figure: Overview of the EoCD architecture. The bitemporal images are early-fused and passed through a single encoder. The EMFF module aggregates multiscale features from the encoder without any learnable parameters.</p>
+  <div class="container is-max-desktop">
+
+      <div class="columns is-centered has-text-centered">
+          <div class="column is-six-fifths"
+              style="display: flex; align-items: flex-start; justify-content: center;">
+              <figure style="text-align: center;">
+                  <img id="teaser" width="100%" src="images/main_framework.png">
+              </figure>
+          </div>
       </div>
-
-      <h3 style="font-family:var(--serif);font-size:1.3rem;font-weight:400;margin:32px 0 12px;">Efficient Multiscale Feature Fusion (EMFF)</h3>
-      <p>The EMFF module is the core of EoCD. Unlike standard decoders with millions of learnable parameters, EMFF contains <strong>zero learnable parameters</strong>. It aggregates feature maps from multiple scales of the encoder via interpolation and pooling operations, emphasizing semantically rich regions that are relevant for the change detection task. This design choice drastically reduces model complexity while preserving the multi-scale context necessary for accurate CD predictions.</p>
-    </div>
-  </section>
+      <div class="columns is-centered">
+          <div class="column is-full-width">
+              <div class="content has-text-justified">
+                  <p>
+                    Overall architecture of the proposed EoCD. It characterizes a student-teacher framework with a decoder-less student network.
+The student network performs early fusion of temporal images and optimally combines the multiscale representations, thereby significantly
+improving the efficiency of the network.
+                  </p>
+              </div>
+          </div>
+      </div>
+  </div>
+</section>
 
   <!-- CONTRIBUTIONS -->
   <section id="contributions">
