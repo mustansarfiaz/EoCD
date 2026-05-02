@@ -677,17 +677,68 @@
 
 <div class="page">
 
-  <!-- ABSTRACT -->
-  <section id="abstract">
+
+  <!-- CONTRIBUTIONS -->
+  <section id="contributions">
     <div class="reveal">
-      <div class="section-label">Abstract</div>
-      <h2>Simple Encoders Beat Complex Decoders</h2>
-      <p>Being a cornerstone of temporal analysis, change detection has been playing a pivotal role in modern earth observation. Existing change detection methods rely on the Siamese encoder to individually extract temporal features followed by temporal fusion. Subsequently, these methods design sophisticated decoders to improve the change detection performance without taking into consideration the complexity of the model. These aforementioned issues intensify the overall computational cost as well as the network's complexity which is undesirable.</p>
-      <p>Alternatively, few methods utilize the early fusion scheme to combine the temporal images. These methods prevent the extra overhead of Siamese encoder, however, they also rely on sophisticated decoders for better performance. In addition, these methods demonstrate inferior performance as compared to late fusion based methods.</p>
-      <p>To bridge these gaps, we introduce <strong>EoCD</strong> — encoder only change detection — that is a simple and effective method for the change detection task. The proposed method performs the early fusion of the temporal data and replaces the decoder with a parameter-free multiscale feature fusion module thereby significantly reducing the overall complexity of the model. EoCD demonstrates the optimal balance between the change detection performance and the prediction speed across a variety of encoder architectures. Extensive experimentation on four challenging CD datasets demonstrates the effectiveness of the proposed method.</p>
+      <div class="section-label">Contributions</div>
+      <h2>Key Insights &amp; Contributions</h2>
+      <div class="contrib-grid">
+        <div class="contrib-card">
+          <div class="contrib-num">01 —</div>
+          <h3>Encoder-only CD Framework</h3>
+          <p>We propose EoCD, a simple and efficient change detection model based on early fusion that entirely eliminates the need for a sophisticated decoder.</p>
+        </div>
+        <div class="contrib-card">
+          <div class="contrib-num">02 —</div>
+          <h3>Parameter-free EMFF</h3>
+          <p>We introduce the Efficient Multiscale Feature Fusion module — containing no learnable parameters — that effectively aggregates multiscale encoder features for optimal CD performance.</p>
+        </div>
+        <div class="contrib-card">
+          <div class="contrib-num">03 —</div>
+          <h3>Encoder Dominance Insight</h3>
+          <p>We demonstrate that CD performance is predominantly dependent on the encoder network, making the decoder an additional and unnecessary component — a new direction for the RS community.</p>
+        </div>
+        <div class="contrib-card">
+          <div class="contrib-num">04 —</div>
+          <h3>Broad Encoder Compatibility</h3>
+          <p>Extensive experiments with various encoder architectures (CNN, ViT, Swin) confirm that EoCD achieves the optimal balance between performance and prediction speed.</p>
+        </div>
+      </div>
     </div>
   </section>
 
+    <!-- Comparison of various CD frameworks -->
+<section class="section">
+  <div class="columns is-centered has-text-centered">
+      <div class="column is-six-fifths">
+          <h2 class="title is-3"><img src="static/images/logo.png" alt="GeoVLM" width="60"
+                  style="vertical-align: bottom;"> Comparison of various CD frameworks</h2>
+      </div>
+  </div>
+
+  <div class="container is-max-desktop">
+
+      <div class="columns is-centered has-text-centered">
+          <div class="column is-six-fifths"
+              style="display: flex; align-items: flex-start; justify-content: center;">
+              <figure style="text-align: center;">
+                  <img id="teaser" width="100%" src="images/main_framework.png">
+              </figure>
+          </div>
+      </div>
+      <div class="columns is-centered">
+          <div class="column is-full-width">
+              <div class="content has-text-justified">
+                  <p>
+                   Comparison of various CD frameworks. a) In late fusion, $I_{pre}$ and $I_{post}$ are fed to Siamese encoder causing the backbone network to process each image separately which lead to increased computational cost. b) Early fusion approach prevent this by concatenating the bitemporal images before passing it to backbone, however, the sophisticated decoder still adds undesirable complexity to the model. c) EoCD introduces a simple design that bypasses the extra overhead of Siamese encoder and sophisticated decoder.
+                  </p>
+              </div>
+          </div>
+      </div>
+  </div>
+</section>
+  
   <!-- METHOD -->
 <section class="section">
   <div class="columns is-centered has-text-centered">
@@ -721,137 +772,7 @@ improving the efficiency of the network.
   </div>
 </section>
 
-  <!-- CONTRIBUTIONS -->
-  <section id="contributions">
-    <div class="reveal">
-      <div class="section-label">Contributions</div>
-      <h2>Key Insights &amp; Contributions</h2>
-      <div class="contrib-grid">
-        <div class="contrib-card">
-          <div class="contrib-num">01 —</div>
-          <h3>Encoder-only CD Framework</h3>
-          <p>We propose EoCD, a simple and efficient change detection model based on early fusion that entirely eliminates the need for a sophisticated decoder.</p>
-        </div>
-        <div class="contrib-card">
-          <div class="contrib-num">02 —</div>
-          <h3>Parameter-free EMFF</h3>
-          <p>We introduce the Efficient Multiscale Feature Fusion module — containing no learnable parameters — that effectively aggregates multiscale encoder features for optimal CD performance.</p>
-        </div>
-        <div class="contrib-card">
-          <div class="contrib-num">03 —</div>
-          <h3>Encoder Dominance Insight</h3>
-          <p>We demonstrate that CD performance is predominantly dependent on the encoder network, making the decoder an additional and unnecessary component — a new direction for the RS community.</p>
-        </div>
-        <div class="contrib-card">
-          <div class="contrib-num">04 —</div>
-          <h3>Broad Encoder Compatibility</h3>
-          <p>Extensive experiments with various encoder architectures (CNN, ViT, Swin) confirm that EoCD achieves the optimal balance between performance and prediction speed.</p>
-        </div>
-      </div>
-    </div>
-  </section>
 
-  <!-- RESULTS -->
-  <section id="results">
-    <div class="reveal">
-      <div class="section-label">Results</div>
-      <h2>State-of-the-art Performance</h2>
-      <p>EoCD achieves competitive change detection performance across four benchmark datasets while being significantly more computationally efficient than late-fusion methods with sophisticated decoders.</p>
-
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Method</th>
-              <th>Fusion</th>
-              <th>F1 (%)</th>
-              <th>IoU (%)</th>
-              <th>OA (%)</th>
-              <th>Params (M)</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>ChangeFormer</td>
-              <td>Late</td>
-              <td>90.40</td>
-              <td>82.48</td>
-              <td>98.85</td>
-              <td>41.0</td>
-            </tr>
-            <tr>
-              <td>BIT</td>
-              <td>Late</td>
-              <td>89.31</td>
-              <td>80.68</td>
-              <td>98.75</td>
-              <td>11.1</td>
-            </tr>
-            <tr>
-              <td>SNUNet</td>
-              <td>Late</td>
-              <td>90.17</td>
-              <td>82.06</td>
-              <td>98.82</td>
-              <td>27.6</td>
-            </tr>
-            <tr>
-              <td>IFN</td>
-              <td>Late</td>
-              <td>88.13</td>
-              <td>78.77</td>
-              <td>98.74</td>
-              <td>50.7</td>
-            </tr>
-            <tr>
-              <td>EfficientCD</td>
-              <td>Early</td>
-              <td>89.10</td>
-              <td>80.38</td>
-              <td>98.71</td>
-              <td>21.3</td>
-            </tr>
-            <tr class="ours">
-              <td><strong>EoCD</strong><span class="ours-tag">Ours</span></td>
-              <td>Early</td>
-              <td class="best">90.81</td>
-              <td class="best">83.18</td>
-              <td class="best">98.91</td>
-              <td class="best">14.2</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <p style="font-size:13px;color:var(--ink3);margin-top:10px;">Results on LEVIR-CD dataset. EoCD achieves top F1/IoU/OA with fewer parameters than competing methods. Full results in the paper.</p>
-    </div>
-  </section>
-
-  <!-- DATASETS -->
-  <section id="datasets">
-    <div class="reveal">
-      <div class="section-label">Datasets</div>
-      <h2>Four Challenging Benchmarks</h2>
-      <p>We evaluate EoCD on four widely-used remote sensing change detection datasets covering urban, suburban, and rural scenes.</p>
-      <div class="dataset-grid">
-        <div class="dataset-card">
-          <div class="name">LEVIR-CD</div>
-          <div class="desc">637 pairs · 1024×1024 · Building change detection</div>
-        </div>
-        <div class="dataset-card">
-          <div class="name">WHU-CD</div>
-          <div class="desc">Building change · aerial imagery · large-scale</div>
-        </div>
-        <div class="dataset-card">
-          <div class="name">DSIFN-CD</div>
-          <div class="desc">6 city pairs · diverse land-use change</div>
-        </div>
-        <div class="dataset-card">
-          <div class="name">S2Looking</div>
-          <div class="desc">5000 pairs · rural building change · satellite</div>
-        </div>
-      </div>
-    </div>
-  </section>
 
   <!-- BIBTEX -->
   <section id="bibtex">
